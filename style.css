@@ -1,0 +1,170 @@
+:root {
+    --bg-black: #000000;
+    --text-white: #ffffff;
+    --text-grey: #888888;
+    
+    /* Brand Colors */
+    --c-spotify: #1DB954;
+    --c-instagram: #E1306C;
+    --c-discord: #5865F2;
+    --c-folder: #a0a0a0;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+body { 
+    background: var(--bg-black); 
+    height: 100vh; 
+    overflow: hidden; 
+    color: var(--text-white); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Background Handling */
+#bg-video { 
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+    object-fit: cover; z-index: -2; 
+    opacity: 0.4; /* Darkens video significantly to match the 'black' vibe */
+}
+.vignette { 
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+    background: #000; /* Solid black fallback */
+    opacity: 0.7; /* Adjust this to make it more/less black */
+    z-index: -1; 
+    pointer-events: none; 
+}
+
+/* Enter Screen */
+#enter-screen { 
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+    background: #000; z-index: 999; 
+    display: flex; justify-content: center; align-items: center; 
+    cursor: pointer; transition: opacity 0.8s; 
+}
+.enter-text { 
+    font-size: 1rem; font-weight: 600; color: #fff;
+    animation: pulse 2s infinite; 
+}
+@keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+
+/* Main Content Wrapper */
+#main-content {
+    opacity: 0;
+    transition: opacity 1.5s ease;
+    z-index: 10;
+}
+
+.center-container {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px; /* Tight spacing like reference */
+}
+
+/* Typography */
+.main-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1;
+    letter-spacing: -1px;
+}
+
+.subtitle {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 20px;
+    opacity: 0.9;
+}
+
+/* Icons Grid */
+.minimal-socials {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-wrap {
+    font-size: 1.8rem;
+    color: #555; /* Default grey state */
+    transition: all 0.2s ease;
+    cursor: pointer;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Hover Effects matching brands */
+.icon-wrap:hover { transform: scale(1.1); }
+
+.icon-wrap.spotify:hover { color: var(--c-spotify); text-shadow: 0 0 15px rgba(29, 185, 84, 0.4); }
+.icon-wrap.x:hover { color: #fff; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
+.icon-wrap.instagram:hover { color: var(--c-instagram); text-shadow: 0 0 15px rgba(225, 48, 108, 0.4); }
+.icon-wrap.discord:hover { color: var(--c-discord); text-shadow: 0 0 15px rgba(88, 101, 242, 0.4); }
+.icon-wrap.folder:hover { color: var(--c-folder); text-shadow: 0 0 15px rgba(255,255,255,0.3); }
+
+
+/* --- POPUP MODAL STYLES (Kept from previous version for functionality) --- */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 2000;
+    display: none; justify-content: center; align-items: center;
+    backdrop-filter: blur(5px);
+}
+
+.modal-glass {
+    width: 350px;
+    background: #0a0a0a;
+    border: 1px solid #222;
+    border-radius: 16px;
+    padding: 25px;
+    position: relative;
+    box-shadow: 0 0 40px rgba(0,0,0,0.8);
+    transform: scale(0.95);
+    animation: popup 0.3s forwards;
+    text-align: left;
+}
+@keyframes popup { to { transform: scale(1); } }
+
+.close-modal {
+    position: absolute; top: 15px; right: 20px;
+    color: #fff; font-size: 1.5rem; cursor: pointer; opacity: 0.6;
+}
+.close-modal:hover { opacity: 1; }
+
+.modal-title { font-size: 1.1rem; margin-bottom: 20px; font-weight: 700; text-align: center; color: #fff; }
+
+.stat-section { margin-bottom: 20px; }
+.stat-label { font-size: 0.75rem; color: #666; text-transform: uppercase; margin-bottom: 8px; font-weight: 700; }
+
+.track-card, .top-artist-card {
+    display: flex; align-items: center; gap: 15px;
+    background: #111; padding: 10px;
+    border-radius: 10px; border: 1px solid #222;
+}
+
+#np-img, #top-artist-img { width: 50px; height: 50px; border-radius: 8px; object-fit: cover; }
+.track-info, .artist-info { display: flex; flex-direction: column; flex-grow: 1; overflow: hidden; }
+#np-name, #top-artist-name { font-weight: 600; font-size: 0.9rem; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#np-artist, #top-artist-plays { font-size: 0.75rem; color: #888; }
+
+.bars-animation { display: none; gap: 3px; align-items: flex-end; height: 15px; }
+.bars-animation.active { display: flex; }
+.bar { width: 3px; background: var(--c-spotify); animation: bounce 1s infinite ease-in-out; }
+.bar:nth-child(1) { height: 60%; animation-delay: 0s; }
+.bar:nth-child(2) { height: 100%; animation-delay: 0.2s; }
+.bar:nth-child(3) { height: 40%; animation-delay: 0.4s; }
+@keyframes bounce { 0%, 100% { height: 40%; } 50% { height: 100%; } }
+
+.album-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.album-item { display: flex; flex-direction: column; align-items: center; text-align: center; }
+.album-art { width: 100%; aspect-ratio: 1/1; border-radius: 6px; margin-bottom: 5px; transition: 0.2s; }
+.album-item:hover .album-art { transform: scale(1.05); }
+.album-name { font-size: 0.65rem; color: #888; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 80px; }
